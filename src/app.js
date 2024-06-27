@@ -29,19 +29,30 @@ app.get('/', (req, res) => {
     res.send('Ola Mundo!')
 })
 
-app.get('/games', (req, res) => {
-    res.status(200).send(listaGames)
-})
-
+// Método CREATE
 app.post('/games', (req, res) => {
     listaGames.push(req.body)
     res.status(201).send('Game adicionado com sucesso!')
+})
+
+// Métodos READ
+app.get('/games', (req, res) => {
+    res.status(200).send(listaGames)
 })
 
 app.get('/games/:id', (req, res) => {
     res.json(buscarGamePorId(req.params.id))
 })
 
+// Método UPDATE
+app.put('/games/:id', (req, res) => {
+    let index = buscarIndexGame(req.params.id)
+    listaGames[index].nome = req.body.nome
+    listaGames[index].trofeus = req.body.trofeus
+    res.json(listaGames)
+})
+
+// Método DELETE
 app.delete('/games/:id', (req, res) => {
     let index = buscarIndexGame(req.params.id)
     listaGames.splice(index, 1)
