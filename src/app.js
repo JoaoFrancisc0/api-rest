@@ -2,6 +2,9 @@ import express from 'express'
 
 const app = express()
 
+// Indicara para o express ler body do json
+app.use(express.json())
+
 // Mock <-- Lista para testar funções
 const listaJogos = [
     {id: 1, nome: "Marvel's Spider-Man", trofeus: 74},
@@ -18,6 +21,11 @@ app.get('/', (req, res) => {
 
 app.get('/games', (req, res) => {
     res.status(200).send(listaJogos)
+})
+
+app.post('/games', (req, res) => {
+    listaJogos.push(req.body)
+    res.status(201).send('Game adicionado com sucesso!')
 })
 
 export default app
