@@ -1,18 +1,11 @@
 import express from 'express'
 
+import conexao from '../infra/conexao.js'
+
 const app = express()
 
 // Indicara para o express ler body do json
 app.use(express.json())
-
-// Mock <-- Lista para testar funções
-const listaGames = [
-    {id: 1, nome: "Marvel's Spider-Man", trofeus: 74},
-    {id: 2, nome: "God of War", trofeus: 37},
-    {id: 3, nome: "Ratchet & Clank", trofeus: 47},
-    {id: 4, nome: "The Last of Us Remastered", trofeus: 50},
-    {id: 5, nome: "Horizon Zero Dawn", trofeus: 79}
-]
 
 // Função de busca por id
 function buscarGamePorId(id) {
@@ -24,39 +17,81 @@ function buscarIndexGame(id) {
     return listaGames.findIndex( game => game.id == id )
 }
 
-// Criar rota padrão
-app.get('/', (req, res) => {
-    res.send('Ola Mundo!')
-})
-
+// Rotas
 // Método CREATE
 app.post('/games', (req, res) => {
-    listaGames.push(req.body)
-    res.status(201).send('Game adicionado com sucesso!')
+    // listaGames.push(req.body)
+    // res.status(201).send('Game adicionado com sucesso!')
+    const game = req.body
+    const sql = "INSERT INTO games SET ?;"
+    conexao.query(sql, game, (error, result) => {
+        if(error) {
+            res.status(404).json({ 'error': error})
+        } else {
+            res.status(201).json(result)
+        }
+    })
 })
 
 // Métodos READ
 app.get('/games', (req, res) => {
-    res.status(200).send(listaGames)
+    // res.status(200).send(listaGames)
+    const sql = "SELECT * FROM games;"
+    conexao.query(sql, (error, result) => {
+        if(error) {
+            res.status(404).json({ 'error': error})
+        } else {
+            res.status(200).json(result)
+        }
+    })
 })
 
 app.get('/games/:id', (req, res) => {
-    res.json(buscarGamePorId(req.params.id))
+    // res.json(buscarGamePorId(req.params.id))
+    const id = req.params.id
+    const sql = "SELECT * FROM games WHERE id=?;"
+    conexao.query(sql, id, (error, result) => {
+        const linha = result[0]
+        if(error) {
+            res.status(404).json({ 'error': error})
+        } else {
+            res.status(200).json(linha)
+        }
+    })
 })
 
 // Método UPDATE
 app.put('/games/:id', (req, res) => {
-    let index = buscarIndexGame(req.params.id)
-    listaGames[index].nome = req.body.nome
-    listaGames[index].trofeus = req.body.trofeus
-    res.json(listaGames)
+    // let index = buscarIndexGame(req.params.id)
+    // listaGames[index].nome = req.body.nome
+    // listaGames[index].trofeus = req.body.trofeus
+    // res.json(listaGames)
+    const id = req.params.id
+    const game = req.body
+    const sql = "UPDATE games SET ? WHERE id=?;"
+    conexao.query(sql, [game, id], (error, result) => {
+        if(error) {
+            res.status(404).json({ 'error': error})
+        } else {
+            res.status(200).json(result)
+        }
+    })
 })
 
 // Método DELETE
 app.delete('/games/:id', (req, res) => {
-    let index = buscarIndexGame(req.params.id)
-    listaGames.splice(index, 1)
-    res.send(`Game com id ${req.params.id} excluído com sucesso!`)
+    // let index = buscarIndexGame(req.params.id)
+    // listaGames.splice(index, 1)
+    // res.send(`Game com id ${req.params.id} excluído com sucesso!`)
+    const id = req.params.id
+    const sql = "DELETE FROM games WHERE id=?;"
+    conexao.query(sql, id, (error, result) => {
+        if(error) {
+            res.status(404).json({ 'error': error})
+        } else {
+            res.status(200).json(result)
+        }
+    })
 })
 
 export default app
