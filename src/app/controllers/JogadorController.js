@@ -13,21 +13,21 @@ class JogadorController {
     }
 
     async show(req, res) {
-        const id = req.params.id
-        const row = await JogadorRepository.findById(id)
+        const nick = req.params.nick
+        const row = await JogadorRepository.findByNick(nick)
         res.json(row)
     }
 
     async update(req, res) {
-        const id = req.params.id
+        const nick = req.params.nick
         const jogador = req.body
-        const row = await JogadorRepository.update(jogador, id)
+        const row = await JogadorRepository.update(jogador, nick)
         res.json(row)
     }
     
     async delete(req, res) {
-        const id = req.params.id
-        const row = await JogadorRepository.delete(id)
+        const nick = req.params.nick
+        const row = await JogadorRepository.delete(nick)
         res.json(row)
     }
 }

@@ -8,10 +8,10 @@ const router = Router()
 router.post('/jogadores', JogadorController.store)
 // Métodos READ
 router.get('/jogadores', JogadorController.index)
-router.get('/jogadores/:id', JogadorController.show)
+router.get('/jogadores/:nick', JogadorController.show)
 // Método UPDATE
-router.put('/jogadores/:id', JogadorController.update)
+router.put('/jogadores/:nick', JogadorController.update)
 // Método DELETE
-router.delete('/jogadores/:id', JogadorController.delete)
+router.delete('/jogadores/:nick', JogadorController.delete)
 
 export default router

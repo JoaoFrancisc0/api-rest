@@ -11,19 +11,19 @@ class JogadorRepository {
         return consulta(sql, "Não foi possível encontrar")
     }
 
-    findById(id) {
-        const sql = "SELECT * FROM jogadores WHERE id=?;"
-        return consulta(sql, id, "Não foi possível encontrar")
+    findByNick(nick) {
+        const sql = "SELECT * FROM jogadores WHERE nick=?;"
+        return consulta(sql, nick, "Não foi possível encontrar")
     }
 
-    update(jogador, id) {
-        const sql = "UPDATE jogadores SET ? WHERE id=?;"
-        return consulta(sql, [jogador, id], "Não foi possível atualizar")
+    update(jogador, nick) {
+        const sql = "UPDATE jogadores SET ? WHERE nick=?;"
+        return consulta(sql, [jogador, nick], "Não foi possível atualizar")
     }
 
-    delete(id) {
-        const sql = "DELETE FROM jogadores WHERE id=?;"
-        return consulta(sql, id, "Não foi possível remover")
+    delete(nick) {
+        const sql = "DELETE FROM jogadores WHERE nick=?;"
+        return consulta(sql, nick, "Não foi possível remover")
     }
 }
 
