@@ -1,17 +1,17 @@
 import { Router } from 'express'
-import GameController from './app/controllers/GameController.js'
+import JogadorController from './app/controllers/JogadorController.js'
 
 const router = Router()
 
 // Rotas
 // Método CREATE
-router.post('/games', GameController.store)
+router.post('/jogadores', JogadorController.store)
 // Métodos READ
-router.get('/games', GameController.index)
-router.get('/games/:id', GameController.show)
+router.get('/jogadores', JogadorController.index)
+router.get('/jogadores/:id', JogadorController.show)
 // Método UPDATE
-router.put('/games/:id', GameController.update)
+router.put('/jogadores/:id', JogadorController.update)
 // Método DELETE
-router.delete('/games/:id', GameController.delete)
+router.delete('/jogadores/:id', JogadorController.delete)
 
 export default router
